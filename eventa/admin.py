@@ -1,12 +1,20 @@
-from django.contrib import admin
+# from django.contrib import admin
+#
+# # Register your models here.
+#
+# from django.contrib import admin
+# from .models import Participant, Meeting, MeetingFile, MeetingResponse
+#
+# admin.site.register(Participant)
+# admin.site.register(Meeting)
+# # admin.site.register(MeetingFile)
+# admin.site.register(MeetingResponse)
 
-# Register your models here.
-
 from django.contrib import admin
-from .models import Participant, Meeting, MeetingFile, MeetingResponse
+from .models import Participant, Meeting, MeetingFile, MeetingResponse, Notification
 
 admin.site.register(Participant)
 admin.site.register(Meeting)
-# admin.site.register(MeetingFile)
+admin.site.register(MeetingFile)
 admin.site.register(MeetingResponse)
-
+admin.site.register(Notification)
