@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import environ
 from pathlib import Path
+env = environ.Env()
+environ.Env.read_env()
 
 env = environ.Env(
     # set casting, default value
@@ -22,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '../.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -83,31 +85,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+#DATABASES = {
     # read os.environ['DATABASE_URL'] and raises
     # ImproperlyConfigured exception if not found
     #
     # The db() method is an alias for db_url().
 
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MyDB',
-        'USER': 'postgres', 
-        'PASSWORD': '123',
-        'HOST': 'localhost',  
-        'PORT': '5432',  
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'MyDB',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '123',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
+
+DATABASES = {
+    'default': env.db_url('DATABASE_URL', default='sqlite:///my-local-sqlite.db'),
+   # 'default': env.db_url('SQLITE_URL', default='sqlite:///my-local-sqlite.db'),
 
 
-
-
-    # 'default': env.db(),
-
-    # # read os.environ['SQLITE_URL']
-    # 'extra': env.db_url(
-    #     'SQLITE_URL',
-    #     default='sqlite:////tmp/my-tmp-sqlite.db'
-    # )
+    # read os.environ['SQLITE_URL']
+    'extra': env.db_url(
+        'SQLITE_URL',
+        default='sqlite:////tmp/my-tmp-sqlite.db'
+    )
 }
 
 
